@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Developing Verification Condition for ARMm0 model refinement}
+\author{Daniil Pintjuk}
+\date{November 2018}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+In this project we investigate the feasibility of using model refinment for model verification of a UART driver for a real world project. The part of this project thats the most in doubght is the weather its possible to develop a sound verification condition. . In this report we develop this condition and prove its soundness. We then evaluate its usability 
+
+
+
+\subsection{Setting}
+
+\subsection {The problem}
+
+
+\section{Background}
+
+
+\section{Aproach}
+
+\section{verification condition}
+
+\section{Verification Condition soundnes}
+
+\section{}
+
+\section{Results}
+\subsection{Soundnes Prof}
+\subsection{Verifying example code}
+
+\section{Conclusion}
+
+We have developed the verification condition $VC$, and proved that its soundnes. We have also proved $VC$ instantiated with some simple creteria code examples. Thus we conclude that its wolud techniqaly be feasible to prove $VC$ for real life code. although it would be work intensive for since a prof condition has to be proved for every instruction. However there is president that shows that this could be automated for code with simple control flows. And for loops it can be proven manually using establish loop invariant techniques.
+
+future work would be to look into the other parts of the overal Uart driver verification projects:
+\begin{itemize}
+    \item Develope the m0 model specilaized with UART and prove its soundnes, by proving $AXI$, aswell as proving the asumptinos made about the current m0 model, naimly tha fact that cpu clock cant decrese after executing any transition.
+    \item Developing more advanced automation for proving verifying $VC$ on real code
+    \item Preforming the verification of the driver. using this apreach
+\end{itemize}
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}
