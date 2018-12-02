@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclas{article}
 \usepackage[utf8]{inputenc}
 
 \title{Developing Verification Condition for ARMm0 model refinement}
@@ -13,13 +13,43 @@
 \maketitle
 
 \section{Introduction}
-In this project we investigate the feasibility of using model refinment for model verification of a UART driver for a real world project. The part of this project thats the most in doubght is the weather its possible to develop a sound verification condition. . In this report we develop this condition and prove its soundness. We then evaluate its usability 
+In this project we investigate the feasibility of using model refinment for model verification of a UART driver for a real world project. The part of this project thats the most in doubght is the weather its possible to develop a sound verification condition. In this report we develop this condition and prove its soundness. We then evaluate its usability 
 
 
 
 \subsection{Setting}
+This thesis is a feasability stuidy of a larger verification project. The aim of the larger project is to verify the end to end correctness of our our one time keypad encryption device.
 
-\subsection {The problem}
+- related varifiction work
+- formal varification of software is established
+
+For good reasons a (what reasons?) spesific Anthony Foxes ARMm0 model has been chosen for the verification of the encryption protocol. our coude uses UART for input and output. the whole code base except for the uart driver can be verified using the ARMm0 model.
+- in the real world uart does something on a write or read from memory mapped registers, in our model reads or whrites to memory maped register couse the uart device to perform some task.
+- so we cant do end to end verfication using this model.
+- we propose an apreach inspired my model refinment. hour logic allowes us to decopose verification problems by verifying specifications for parts of the code and then combining them using rules of inference.
+If we look at our code we se that vast majority of it does not tuch the uart memory map and thus its specifications can be verified using the model and standard apreach. The only code that interacts with the uart memory map is the uart driver. and if we decompose the code firther we se that its only 1 or 2 instructions in each subrutine of the driver that reads or writes to the memory map thus the majority of the driver code can be verified using the standard tool and only this single instructions requer some adhoc solution to be verified. And after we verify them in an adhoc way the specifications can be composed using stardard hoar logic compositon techniques. A huge advantage of such an apreach would be that existing analysis tools can be used for the vast majority of the code that is t be verified, and since only a few instructions need to be analyzed in an adhoc way they development of new atomation tools is not needed since a few insructions can be analyzed by hand.
+
+the adhoc solution for analyzing this instructions that read and write to the uart memory map that we propose involves the development of a new model that consists of both a ARM CPU model and a UART model. The CPU part would behave exactly like the ARM m0 model except when reads and writes to the memory map are preformed this reads and writes would cause the UART part to transition acordance with the UART specification.
+The assertion language for the new model would include the assertion language of the original ARM m0 model but also include statments about the UART output and input and status.
+
+The specification for the instructions would be expressed in the new extended assertion language and proved using the new extended model.
+
+Howeve we now have a problem that we can not conect specifications of different models, so we need some mechanism to lift the specifications to the same model. Remember that both models behave equavelently when UART is not tuched. And most of our code does not tuch the uart thus if we have proved a specification for some code that obviously does not tuch the uart then moraly there should be an equivalant specification in the specialized model that should hold. Since the specification laungage in the new model is basically thesame but extended with assertions on the uart, it should really be a siilar specification but on the CPU part of the specialized model.
+
+What we need is some mechanism for lifting specifications proved in the original model into the Specialized model so that it all can be composed with the specification for the problematic instructions.
+We need a an inference rule that given a proved specification in tho original model proves a coresponding specification in the specialized model under the condition that uart is not tuched by the code witch specilized.
+
+this rule would look like an implecation of the form $A_m /\ VC ==> A_{ms}$  where $A_m$ is a specification proved in the original model $VC$ is this property that ensures that the models bahave equevelently, and $A_{ms}$ is $A_m$ lifted to the specilized model.
+So in order to combine the specifications a user after 
+
+- new papers on verificationh of i/o 
+
+
+
+
+\subsection {The problem formulation}
+Far more copmlicated code has been verified using this set of tools, so the ability to verify 
+Verifying the code that dose not tuch the uart i
 
 
 \section{Background}
